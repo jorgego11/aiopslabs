@@ -1,6 +1,7 @@
-site_name: MkLorum
-site_url: https://example.com/
+site_name: Watson AIOps
+
 nav:
-    - Home: index.md
+    - Home: integration.md
     - About: about.md
 theme: readthedocs
+
