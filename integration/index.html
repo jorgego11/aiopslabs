@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Home - Watson AIOps</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "integration.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Watson AIOps
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#define-efk-integration">Define EFK Integration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Watson AIOps</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="welcome-to-the-watson-aiops-v33-lab">Welcome to the Watson AIOps v3.3 Lab</h1>
+<p>For full product documentation visit <a href="https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.1">here</a>.</p>
+<h2 id="define-efk-integration">Define EFK Integration</h2>
+<p>EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. To simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the <code>OpenShift Logging</code> library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the <code>OpenShift Logging</code> library.</p>
+<p>To have AI Manager collect logs from the EFK installation that leverages the <code>OpenShift Logging</code> library, you need to define an EFK integration. Here we provide the values that you should use for defining the EFK integration.
+From the Home Page, clik on <code>Data and tool connections</code> under <code>Overview</code> on the left side of the page. Click on the <code>Add connection</code> button on the top right. On the ELK card, select <code>Add connection</code>. On the right side slider, click on <code>Connect</code>, as shown in the following screen.</p>
+<p><img alt="elk integration 1" src="../elk-integration-1.png" title="ELK integration 1" /></p>
+<p>Complete the ELK, Add connection form, with the following values:</p>
+<ul>
+<li><code>Name</code>: Name of your liking for the ELK integration (e.g. <code>EFK for QOTD</code>).</li>
+<li>
+<p><code>ELK service URL</code>: Get the service URL for the EFK installation from the <em>Lab Parameter Table</em>.</p>
+</li>
+<li>
+<p><code>Kibana URL</code>: Get URL for Kibana from the <em>Lab Parameter Table</em>.</p>
+</li>
+<li>
+<p><code>Authentication type</code>: Set this value to <code>Token</code>.</p>
+</li>
+<li>
+<p><code>Token</code>: Get the token from the <em>Lab Parameter Table</em>.</p>
+</li>
+<li>
+<p><code>Kibana port</code>: Use <code>443</code> for this field.</p>
+</li>
+</ul>
+<p>Click on the <code>Next</code> button.</p>
+<ul>
+<li><code>Field mapping</code>: Use the mapping shown below instead of the default mapping provided on the ELK integration. Make sure you see the <code>Valid JSON configuration</code> message after that:</li>
+</ul>
+<pre><code>{
+    &quot;codec&quot;: &quot;elk&quot;,
+    &quot;message_field&quot;: &quot;message&quot;,
+    &quot;log_entity_types&quot;: &quot;kubernetes.container_image_id, kubernetes.host, kubernetes.pod_name, kubernetes.namespace_name&quot;,
+    &quot;instance_id_field&quot;: &quot;kubernetes.container_name&quot;,
+    &quot;rolling_time&quot;: 10,
+    &quot;timestamp_field&quot;: &quot;@timestamp&quot;
+}
+</code></pre>
+<ul>
+<li>Click on the <code>Test Connection</code> button and confirm you get <em>Test Succeded</em> </li>
+</ul>
+<p>Click on the <code>Next</code> button.</p>
+<ul>
+<li>
+<p><code>Data flow</code>: Turn this on. We will ingest historical data that we will use for training. </p>
+</li>
+<li>
+<p><code>Mode</code>: Select the <code>Historical data for initial AI training</code> option.</p>
+<ul>
+<li>Start date: April 23, 2022</li>
+<li>End Date: April 27, 2022</li>
+</ul>
+</li>
+<li>
+<p>The following screens show the form update flow (note that config values may be different in the screen)</p>
+<p><img alt="elk integration 2" src="../elk-integration-2.png" title="ELK integration 2" /></p>
+<p><img alt="elk integration 3" src="../elk-integration-3.png" title="ELK integration 3" /></p>
+<p><img alt="elk integration 4" src="../elk-integration-4.png" title="ELK integration 4" /></p>
+<p><img alt="elk integration 5" src="../elk-integration-5.png" title="ELK integration 5" /></p>
+<p><img alt="elk integration 6" src="../elk-integration-6.png" title="ELK integration 6" /></p>
+</li>
+</ul>
+<p>Finally, click on the <code>Done</code> button.  After some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code></p>
+<h2 id="project-layout">Project layout</h2>
+<pre><code>mkdocs.yml    # The configuration file.
+docs/
+    index.md  # The documentation homepage.
+    ...       # Other markdown pages, images and other files.
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="../about/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
