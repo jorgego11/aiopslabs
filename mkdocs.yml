@@ -1,7 +1,9 @@
 site_name: Watson AIOps
 
 nav:
-    - Home: integration.md
+    - Start Here: integration.md
+    - Log Anomaly Training: log-anomaly.md
+    - Inference Results: inference.md
     - About: about.md
 theme: readthedocs
 
