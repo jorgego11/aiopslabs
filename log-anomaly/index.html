@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Log Anomaly Training - Watson AIOps</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Log Anomaly Training";
+        var mkdocs_page_input_path = "log-anomaly.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Watson AIOps
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../integration/">Start Here</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Log Anomaly Training</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#recap">Recap</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#log-anomaly-algorithms">Log Anomaly Algorithms</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuring-log-anomaly-training">Configuring Log Anomaly Training</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#start-training">Start Training</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inference/">Inference Results</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Watson AIOps</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Log Anomaly Training</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="log-anomaly-training">Log Anomaly Training</h1>
+<h2 id="recap">Recap</h2>
+<p>Lets recap what we have done so far:</p>
+<ul>
+<li>
+<p>We have defined an integration to a Log Aggregator (EFK) that its receiving logs from an application called <em>qotd</em> and we have pulled logs into CP4WAIOps for a period of 1 day.</p>
+</li>
+<li>
+<p>We have defined an integration to Instana which is observing the environment where qotd is running and we have pulled every resource topology information related to this application into CP4WAIOps.</p>
+</li>
+</ul>
+<p>Now we will do log anomaly training to create a model that CP4WAIOps will use to find anomalies in the logs.</p>
+<hr />
+<h2 id="log-anomaly-algorithms">Log Anomaly Algorithms</h2>
+<p>In CP4WAIOps v3.3, two log anomaly detection AI algorithms are available, each of which can run independently of the other. If both algorithms are enabled, then any log anomalies that are discovered by both algorithms are reconciled so that only one alert is generated. The severity of this combined alert is equal to the highest severity of the two alerts.</p>
+<ul>
+<li>
+<p><strong>Statistical baseline log anomaly detection</strong> extracts specific entities from the logs, such as short text strings that indicate error codes and exceptions. The algorithm combines the entities with other statistics, such as number of logs for each component, and uses the data as a baseline to discover abnormal behavior in your live log data.</p>
+</li>
+<li>
+<p><strong>Natural language log anomaly detection</strong> uses natural language techniques on a subset of your log data to discover abnormal behavior.</p>
+</li>
+</ul>
+<p>Log anomaly detection takes large amounts of log data and trains on it to learn what is considered normal behavior for a particular component. This model goes beyond just looking at error states or frequency of metadata around log messages. Instead, it determines when something becomes an anomaly compared to what patterns it typically exhibits during normal times.</p>
+<hr />
+<h2 id="configuring-log-anomaly-training">Configuring Log Anomaly Training</h2>
+<ul>
+<li>
+<p>From the Home page, under <code>Overview</code> click on <code>AI model management</code> to open the AI Model Management dashboard (feel free to skip the <em>Tour</em> pop-up window).</p>
+</li>
+<li>
+<p>On the <code>AI algorithms</code> tab, on the <code>Log anomaly detection-natural language</code> tile, click <code>Configure</code>.</p>
+</li>
+</ul>
+<p><img alt="AIOps log anomaly training 1" src="../images/aiops-log-anomaly-training-1.png" /></p>
+<ul>
+<li><strong>Getting started:</strong> Under Data and tool connections, check that at least one connection is listed down the page.</li>
+</ul>
+<p><img alt="AIOps log anomaly training 2" src="../images/aiops-log-anomaly-training-2.png" /></p>
+<p>Click <code>Next</code> to move to the next pane.</p>
+<ul>
+<li><strong>Provide details:</strong> Here we provide a name and description to identify this algorithm configuration later. Lets leave the default Configuration name. </li>
+</ul>
+<p><img alt="AIOps log anomaly training 3" src="../images/aiops-log-anomaly-training-3.png" /></p>
+<p>Click <code>Next</code> to move to the next pane.</p>
+<ul>
+<li><strong>Select data:</strong> Specify a date range to train upon. Select <code>Custom</code> and specify Date1 as Start Date and Date2 as End Date.</li>
+</ul>
+<p><img alt="AIOps log anomaly training 4" src="../images/aiops-log-anomaly-training-4.png" /></p>
+<p>Click <code>Next</code> to move to the next pane.</p>
+<ul>
+<li><strong>Filter data:</strong> Here we have the option to filter out known anomalies in the training data by specifing date ranges to skip. In this Lab, we don't need to specify any date range to get filtered. </li>
+</ul>
+<p><img alt="AIOps log anomaly training 5" src="../images/aiops-log-anomaly-training-5.png" /></p>
+<p>Click <code>Next</code> to move to the next pane.</p>
+<ul>
+<li><strong>Schedule training:</strong> Here we can specify a time schedule to run the training if needed. In this Lab we will run the training manually therefore make sure that <em>Run on a schedule</em> is set to <code>Off</code> (grey).</li>
+</ul>
+<p><img alt="AIOps log anomaly training 6" src="../images/aiops-log-anomaly-training-6.png" /></p>
+<p>Click <code>Next</code> to move to the next pane.</p>
+<ul>
+<li><strong>Deploy:</strong> To review the results of training before deploying the model, ensure that Deployment type is set to <code>Review first</code>.</li>
+</ul>
+<p><img alt="AIOps log anomaly training 7" src="../images/aiops-log-anomaly-training-7.png" /></p>
+<p>Click <code>Done</code> to save the algorithm configuration.</p>
+<p>Now you will notice that the <code>Log anomaly detection-natural language</code> tile, is set to <code>Configured</code>.</p>
+<p><img alt="AIOps log anomaly training 8" src="../images/aiops-log-anomaly-training-8.png" /></p>
+<p>Now that the Log Anomaly configuration is set, we can start the training.</p>
+<hr />
+<h2 id="start-training">Start Training</h2>
+<ul>
+<li>
+<p>From the AI model management page, click on the <code>Manage</code> tab to open the management section.</p>
+<p><img alt="AIOps log anomaly training 9" src="../images/aiops-log-anomaly-training-9.png" /></p>
+</li>
+<li>
+<p>Click the algorithm configuration that you just defined to generate an AI model. The overview page is displayed.</p>
+</li>
+</ul>
+<p><img alt="AIOps log anomaly training 10" src="../images/aiops-log-anomaly-training-10.png" /></p>
+<ul>
+<li>
+<p>In the right sidebar, click <code>Start training</code>.</p>
+</li>
+<li>
+<p>After a few moments, the following response is displayed: <code>Training successfully started</code>.</p>
+</li>
+<li>
+<p>The AI Training tile displays the message: <code>Data retrieving. Training is now in progress.</code></p>
+<p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-11.png" /></p>
+</li>
+<li>
+<p>Once the training is complete, the AI Training tile displays the message: <code>Training complete</code>. At this point, AI models are created, with a specified data quality.</p>
+</li>
+</ul>
+<p><img alt="AIOps log anomaly training 12" src="../images/aiops-log-anomaly-training-12.png" /></p>
+<ul>
+<li>To deploy the model, click the algorithm configuration for whose model that you want to deploy. The overview page is displayed.</li>
+</ul>
+<p>In the right sidebar, click <code>Deploy vX</code>, where X is the version number of the model that is generated, but not deployed.</p>
+<p><img alt="AIOps log anomaly training 13" src="../images/aiops-log-anomaly-training-13.png" /></p>
+<ul>
+<li>Once the model is deployed, you can check the status of the model under the <code>Versions</code> tab.</li>
+</ul>
+<p><img alt="AIOps log anomaly training 14" src="../images/aiops-log-anomaly-training-14.png" /></p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../integration/" class="btn btn-neutral float-left" title="Start Here"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../inference/" class="btn btn-neutral float-right" title="Inference Results">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../integration/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../inference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
