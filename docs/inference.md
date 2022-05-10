@@ -1,5 +1,5 @@
 
-## Inference
+## Configure Log Anomaly Inference
 
 After your trained model is successfully deployed, update your Log Ops integration, such as ELK to start log anomaly detection:
 
@@ -17,3 +17,8 @@ when your trained AI models are deployed, data flows through the `cp4waiops-cart
 
 
 ---
+
+# Verify Incident Story
+
+< TBD > 
+

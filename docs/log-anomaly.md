@@ -84,7 +84,7 @@ Now that the Log Anomaly configuration is set, we can start the training.
 
 ---
 
-## Start Training
+## Train & Deploy a Log Anomaly Model
 
 * From the AI model management page, click on the `Manage` tab to open the management section.
 
