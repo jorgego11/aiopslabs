@@ -45,9 +45,15 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#lab-overview">Lab Overview</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#define-the-efk-integration">Define the EFK Integration</a>
+    <li class="toctree-l2"><a class="reference internal" href="#lab-terms-definition">Lab Terms Definition</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#define-the-instana-integration">Define the Instana Integration</a>
+    <li class="toctree-l2"><a class="reference internal" href="#connecting-to-the-cp4waiops-console">Connecting to the CP4WAIOps console</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-the-efk-integration">Configure the EFK Integration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-the-instana-integration">Configure the Instana Integration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</a>
     </li>
     </ul>
                 </li>
@@ -88,12 +94,46 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="welcome-to-the-cloud-pack-for-watson-aiops-v33-lab">Welcome to the Cloud Pack for Watson AIOps v3.3 Lab</h1>
-<p>For full product documentation visit <a href="https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.1">this link</a>.</p>
+<p>For the complete product documentation, visit <a href="https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.1">this link</a>.</p>
 <h2 id="lab-overview">Lab Overview</h2>
-<p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Add Lab overview steps.</p>
-<p>Lets start by connecting to the Cloud Pack for Watson AIOps (CP4WAIOps) console. Get the URL and login credentials from the <em>Lab Parameters Table</em>.</p>
+<p>In this Lab, you will play the role of an IT Operations expert that will configure the Cloud Pack for Watson AIOps (CP4WAIOps) to support IT Operations of a sample business application called QOTD. This application is being "observed" by Instana to pull application performance management metrics including topology. The application logs are being collected by a ElasticSearch (ELK) based log aggregator. These logs are consumed by CP4WAIOps to create a Log Anomaly model. And this model is used to detect application anomalies that will be shown in an incident Story. </p>
+<p>These are the different Lab steps:</p>
+<ol>
+<li>Configure the EFK Integration in CP4WAIOps to pull business application logs</li>
+<li>Configure the Instana Integration in CP4WAIOps to pull business application topology</li>
+<li>Update CP4WAIOps Policies to create stories</li>
+<li>Configure CP4WAIOps Log Anomaly Training</li>
+<li>Configure CP4WAIOps Log Anomaly Inference</li>
+<li>Verify CP4WAIOps incident stories</li>
+</ol>
+<p>The following deployment architecture shows the different components that support the Lab:</p>
+<p><img alt="Lab Overview" src="../images/lab-overview.png" title="Lab Overview" /></p>
 <hr />
-<h2 id="define-the-efk-integration">Define the EFK Integration</h2>
+<h2 id="lab-terms-definition">Lab Terms Definition</h2>
+<p>Lets define some key CP4WAIOps concepts and terms that will help you understand the Lab:</p>
+<p><strong>Events:</strong> An event is a record containing structured data summarizing key attributes of an occurrence on a managed entity, which might be a network resource, some part of that resource, or other key element associated with your network, services, or applications. An event may or may not indicate something anomalous and is a point-in-time, immutable statement about the managed entity in question.</p>
+<p><strong>Alerts:</strong> Alerts are created when one or more <strong>events</strong> indicate an anomalous condition. Alerts represent an ongoing anomalous condition against a single managed entity. Unlike events, alerts might evolve over time as the condition changes. Alerts have a start and an end time. The creation and evolution of alerts are informed by events. CP4WAIOps automatically correlates alerts to determine what alerts are likely to share a common cause. This is determined based on a combination of:</p>
+<ul>
+<li>
+<p><strong>Scope-based correlation</strong> - Any alerts which have the same value for the resource field are correlated.</p>
+</li>
+<li>
+<p><strong>Temporal correlation</strong> - The system continually analyzes past alerts to determine which alerts tend to frequently co-occur. When these alerts occur together again, they are correlated.</p>
+</li>
+<li>
+<p><strong>Topological correlation</strong> - Any alerts which refer to resources within the same Resource group are correlated.</p>
+</li>
+</ul>
+<p><strong>Stories:</strong> Stories represent the context around an incident which is currently severely impacting IT Operations. This includes all alerts that are related to the incident and information about how the affected resources are related. The creation and evolution of stories are informed by <strong>alerts</strong>. Stories can help build the understanding of the current situation and also drive the remediation steps. In other words, stories represent an <code>IT Operations incident</code> and are categorized by priority from 1 (high) to 5 (low).</p>
+<p><strong>Policies:</strong> Policies are rules that contain a condition and a set of actions that can be manual or automated. They can be triggered to automatically promote events to alerts, reduce noise by grouping alerts into a story, and assign runbooks to remediate alerts. Each policy has an execution priority number which is determines which policy runs first. </p>
+<p><strong>Runbooks:</strong> A runbook is a controlled set of automated and manual steps that support system and network operational processes. A runbook orchestrates all types of infrastructure elements, such as applications, network components, or servers. We can also use runbooks to document standard procedures that can be leveraged by IT operations.</p>
+<p><strong>Actions:</strong> Actions are the collection of several predefined steps into a single automated tested entity that can be shared by multiple runbooks. Actions improve runbook efficiency by encapsulating procedures and operations. </p>
+<hr />
+<h2 id="connecting-to-the-cp4waiops-console">Connecting to the CP4WAIOps console</h2>
+<p>Lets start by connecting to the CP4WAIOps console. Get the URL and login credentials from the <em>Lab Parameters Table</em>. You will see the console home page as shown below. </p>
+<p><img alt="Home Page" src="../images/home-page.png" title="Home Page" /></p>
+<hr />
+<h2 id="configure-the-efk-integration">Configure the EFK Integration</h2>
 <p>EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. To simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the <code>OpenShift Logging</code> library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the <code>OpenShift Logging</code> library.</p>
 <p>To have AI Manager collect logs from the EFK installation that leverages the <code>OpenShift Logging</code> library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration.</p>
 <p>From the Home page, under <code>Overview</code> clik on <code>Data and tool connections</code> on the left side of the page. Click on the <code>Add connection</code> button on the top right. On the ELK card, select <code>Add connection</code>. Take a moment to read the connection overview on the right side slider, then click on <code>Connect</code>, as shown in the following screen.</p>
@@ -159,10 +199,10 @@
 <p>Finally, click on the <code>Done</code> button.  After some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code></p>
 <p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Add step to verify completion of 1 day of log data load</p>
 <hr />
-<h2 id="define-the-instana-integration">Define the Instana Integration</h2>
+<h2 id="configure-the-instana-integration">Configure the Instana Integration</h2>
 <p>The CP4WAIOps will consume topology information from Instana therefore we will configure the integration between the CP4WAIOps and Instana.</p>
 <p>Lets verify first that there is no topology data in the system. From the Home page, clik on Resource management under Overview on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below</p>
-<p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Replace screen shot 
+<p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Replace screen shot with one that does not show topology data. 
 <img alt="instana integration 1" src="../images/instana-1.png" title="Instana integration 1" /></p>
 <p>Now, lets define the Instana integration. From the Home page, clik on <code>Data and tool connections</code> under <code>Overview</code> on the left side of the page. Click on the <code>Add connection</code> button on the top right. On the Instana card, select <code>Add connection</code>. Take a moment to read the connection overview on the right side slider, then click on <code>Connect</code>, as shown in the following screen.</p>
 <p><img alt="instana integration 1" src="../images/instana-1.png" title="Instana integration 1" /></p>
@@ -220,6 +260,27 @@
 <p>Click on the application <code>qotd</code> and you will see the topology resources related to this application as shown in the picture below. Feel free to zoom-in to see details.</p>
 <p><img alt="qotd Topology" src="../images/resource-topo.png" title="qotd Topology]" /></p>
 <hr />
+<h2 id="review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</h2>
+<p>Now, lets take a look at the automations page in CP4WAIOps. By creating automations, we can proactively set up actions and policies to detect and remediate events. </p>
+<p>From the Home page, clik on <code>Automations</code> under <code>Overview</code> on the left side of the page. In this page, we can manage <em>Policies</em>, <em>Runbooks</em> and <em>Actions</em> (we will see Stories later in the Inference section of the Lab)</p>
+<p>Under the <em>Policies</em> tab, we can see a list of system predefined policies that support a number of features in CP4WAIOps. We will review and enable a predefined policy that create stories:</p>
+<ul>
+<li>
+<p>Click on the Tag pull down filter and select <code>Story</code> to only show the Story related policies.</p>
+</li>
+<li>
+<p>Change the state of the <code>Default story creation policy for all alerts</code> policy from Disabled to Enabled by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.</p>
+</li>
+<li>
+<p>This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. Click on the policy name to see the policy details on the right of the page. </p>
+</li>
+<li>
+<p>Click on the <code>Journal</code> tab to see the updates done so far to this policy.</p>
+</li>
+<li>
+<p>Click on the <code>Specification</code> tab to see the actual steps or logic of the policy.</p>
+</li>
+</ul>
               
             </div>
           </div><footer>
