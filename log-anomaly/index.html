@@ -99,6 +99,9 @@
 <li>
 <p>We have defined an integration to Instana which is observing the environment where qotd is running and we have pulled every resource topology information related to this application into CP4WAIOps.</p>
 </li>
+<li>
+<p>We have enabled one CP4WAIOps policy to create Stories.</p>
+</li>
 </ul>
 <p>Now we will do log anomaly training to create a model that CP4WAIOps will use to find anomalies in the logs.</p>
 <hr />
@@ -130,12 +133,22 @@
 <p><img alt="AIOps log anomaly training 2" src="../images/aiops-log-anomaly-training-2.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
-<li><strong>Provide details:</strong> Here we provide a name and description to identify this algorithm configuration later. Lets leave the default Configuration name. </li>
+<li><strong>Provide details:</strong> Here we provide a name and description to identify this algorithm configuration later. For Configuration name, type <code>QOTD-NLP-model</code>. Leave the Configuration description empty. </li>
 </ul>
 <p><img alt="AIOps log anomaly training 3" src="../images/aiops-log-anomaly-training-3.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
-<li><strong>Select data:</strong> Specify a date range to train upon. Select <code>Custom</code> and specify Date1 as Start Date and Date2 as End Date.</li>
+<li>
+<p><strong>Select data:</strong> Specify a date range to train upon. Select <code>Custom</code> and specify the dates listed below. Note that from the full day of application logs that we pulled from the log aggregator, we will select the full 24 hours of data. In a real production deployment, you will tipically pull and later select up to a week of data to have a more representative model. </p>
+<ul>
+<li>
+<p>Start Date <code>05/08/2022</code>    12:00   <code>AM</code>   Local Time (UTC -04:00)</p>
+</li>
+<li>
+<p>End Date <code>05/09/2022</code>      12:00   <code>AM</code>   Local Time (UTC -04:00)</p>
+</li>
+</ul>
+</li>
 </ul>
 <p><img alt="AIOps log anomaly training 4" src="../images/aiops-log-anomaly-training-4.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
@@ -180,6 +193,11 @@
 <p>The AI Training tile displays the message: <code>Data retrieving. Training is now in progress.</code></p>
 <p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-11.png" /></p>
 </li>
+<li></li>
+<li>
+<p><strong>Log Anomaly Training will typically take around 30 minutes for this amount of data. This a good time to get lunch and come back in 30 minutes :-) </strong></p>
+</li>
+<li></li>
 <li>
 <p>Once the training is complete, the AI Training tile displays the message: <code>Training complete</code>. At this point, AI models are created, with a specified data quality.</p>
 </li>

@@ -144,6 +144,9 @@
 <p><code>Name</code>: Name of the ELK integration, for example <code>EFK for QOTD</code>.</p>
 </li>
 <li>
+<p><code>Description</code>: Leave it blank.</p>
+</li>
+<li>
 <p><code>ELK service URL</code>: Get the service URL for the EFK installation from the <em>Lab Parameters Table</em>.</p>
 </li>
 <li>
@@ -156,7 +159,22 @@
 <p><code>Token</code>: Get the token from the <em>Lab Parameters Table</em>.</p>
 </li>
 <li>
-<p><code>Kibana port</code>: Use <code>443</code> for this field.</p>
+<p><code>Certificate</code>: Leave it blank.</p>
+</li>
+<li>
+<p><code>Filters</code>: Don't change it.</p>
+</li>
+<li>
+<p><code>Time zone</code>: Don't change it.</p>
+</li>
+<li>
+<p><code>Kibana port</code>: Type <code>443</code>.</p>
+</li>
+<li>
+<p><code>Base parallelism</code>: Don't change it.</p>
+</li>
+<li>
+<p><code>Sampling rate</code>: Don't change it.</p>
 </li>
 </ul>
 <p>Click on the <code>Next</code> button.</p>
@@ -178,32 +196,34 @@
 <p>Click on the <code>Next</code> button.</p>
 <ul>
 <li>
-<p><code>Data flow</code>: Turn this on. We will ingest historical data that we will use for training. </p>
+<p><code>Data flow</code>: Turn this on. </p>
 </li>
 <li>
-<p><code>Mode</code>: Select the <code>Historical data for initial AI training</code> option.</p>
+<p><code>Mode</code>: Select the <code>Historical data for initial AI training</code> option using the dates listed below. CP4WAIOps will ingest one day of historical application log data (stored in the log aggregator) that we know in advanced that can be used as a "reference" for a normal day because no major IT incident happen. We will use this data later for Log Anomaly training. </p>
 <ul>
-<li>Start date: April 23, 2022</li>
-<li>End Date: April 27, 2022</li>
+<li>Start date: May 8, 2022</li>
+<li>End Date: May 8, 2022</li>
 </ul>
 </li>
 <li>
-<p>The following screens show the form update flow (note that config values may be different in the screen)</p>
+<p><code>Source parallelism (1-50)</code>: Don't change it.</p>
+</li>
+</ul>
+<p>The following screenshots show the form update flow as guidance <strong>(note that config values may be different in the screenshots, follow the previous instructions instead)</strong></p>
 <p><img alt="elk integration 2" src="../images/elk-integration-2.png" title="ELK integration 2" /></p>
 <p><img alt="elk integration 3" src="../images/elk-integration-3.png" title="ELK integration 3" /></p>
 <p><img alt="elk integration 4" src="../images/elk-integration-4.png" title="ELK integration 4" /></p>
 <p><img alt="elk integration 5" src="../images/elk-integration-5.png" title="ELK integration 5" /></p>
 <p><img alt="elk integration 6" src="../images/elk-integration-6.png" title="ELK integration 6" /></p>
-</li>
-</ul>
-<p>Finally, click on the <code>Done</code> button.  After some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code></p>
-<p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Add step to verify completion of 1 day of log data load</p>
+<p>Finally, click on the <code>Done</code> button.  After some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code> and the ELK integration page will show the Data Flow Status as <code>Running</code> as shown below:</p>
+<p><img alt="elk integration 7" src="../images/elk-integration-7.png" title="ELK integration 7" /></p>
+<p>After around 15 minutes, it will stop pulling the data and the Data Flow Status will change to <code>Finished</code> as shown below. <strong>Don't wait. Move to the next step in the meantime.</strong></p>
+<p><img alt="elk integration 8" src="../images/elk-integration-8.png" title="ELK integration 8" /></p>
 <hr />
 <h2 id="configure-the-instana-integration">Configure the Instana Integration</h2>
 <p>The CP4WAIOps will consume topology information from Instana therefore we will configure the integration between the CP4WAIOps and Instana.</p>
-<p>Lets verify first that there is no topology data in the system. From the Home page, clik on Resource management under Overview on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below</p>
-<p><strong>&gt;&gt;&gt; TBD &gt;&gt;&gt;</strong>  Replace screen shot with one that does not show topology data. 
-<img alt="instana integration 1" src="../images/instana-1.png" title="Instana integration 1" /></p>
+<p>Lets verify first that there is no topology data in the system. From the Home page, clik on <code>Resource management</code> under <code>Overview</code> on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below</p>
+<p><img alt="instana integration 0" src="../images/instana-0.png" title="Instana integration 0" /></p>
 <p>Now, lets define the Instana integration. From the Home page, clik on <code>Data and tool connections</code> under <code>Overview</code> on the left side of the page. Click on the <code>Add connection</code> button on the top right. On the Instana card, select <code>Add connection</code>. Take a moment to read the connection overview on the right side slider, then click on <code>Connect</code>, as shown in the following screen.</p>
 <p><img alt="instana integration 1" src="../images/instana-1.png" title="Instana integration 1" /></p>
 <p>Enter the following <code>Add connection</code> information:</p>
@@ -281,6 +301,8 @@
 <p>Click on the <code>Specification</code> tab to see the actual steps or logic of the policy.</p>
 </li>
 </ul>
+<p>That's all we need to do to enable this policy. </p>
+<hr />
               
             </div>
           </div><footer>
