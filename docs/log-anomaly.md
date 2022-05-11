@@ -10,6 +10,8 @@ Lets recap what we have done so far:
 
 * We have defined an integration to Instana which is observing the environment where qotd is running and we have pulled every resource topology information related to this application into CP4WAIOps.
 
+* We have enabled one CP4WAIOps policy to create Stories.
+
 Now we will do log anomaly training to create a model that CP4WAIOps will use to find anomalies in the logs.
 
 ---
@@ -42,13 +44,17 @@ Log anomaly detection takes large amounts of log data and trains on it to learn 
 
 Click `Next` to move to the next pane.
 
-* **Provide details:** Here we provide a name and description to identify this algorithm configuration later. Lets leave the default Configuration name. 
+* **Provide details:** Here we provide a name and description to identify this algorithm configuration later. For Configuration name, type `QOTD-NLP-model`. Leave the Configuration description empty. 
 
    ![AIOps log anomaly training 3](./images/aiops-log-anomaly-training-3.png)
 
 Click `Next` to move to the next pane.
 
-* **Select data:** Specify a date range to train upon. Select `Custom` and specify Date1 as Start Date and Date2 as End Date.
+* **Select data:** Specify a date range to train upon. Select `Custom` and specify the dates listed below. Note that from the full day of application logs that we pulled from the log aggregator, we will select the full 24 hours of data. In a real production deployment, you will tipically pull and later select up to a week of data to have a more representative model. 
+
+      * Start Date `05/08/2022`    12:00   `AM`   Local Time (UTC -04:00)
+
+      * End Date `05/09/2022`      12:00   `AM`   Local Time (UTC -04:00)
 
    ![AIOps log anomaly training 4](./images/aiops-log-anomaly-training-4.png)
 
@@ -102,6 +108,11 @@ Now that the Log Anomaly configuration is set, we can start the training.
 
      ![AIOps log anomaly training 11](./images/aiops-log-anomaly-training-11.png)
 
+* 
+
+* **Log Anomaly Training will typically take around 30 minutes for this amount of data. This a good time to get lunch and come back in 30 minutes :-) **
+
+* 
 
 * Once the training is complete, the AI Training tile displays the message: `Training complete`. At this point, AI models are created, with a specified data quality.
 
