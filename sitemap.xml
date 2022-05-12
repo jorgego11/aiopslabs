@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://jorgego11.github.io/aiopslabs/integration/about/</loc>
+         <loc>https://jorgego11.github.io/aiopslabs/about/</loc>
          <lastmod>2022-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://jorgego11.github.io/aiopslabs/integration/inference/</loc>
+         <loc>https://jorgego11.github.io/aiopslabs/inference/</loc>
          <lastmod>2022-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://jorgego11.github.io/aiopslabs/integration/integration/</loc>
+         <loc>https://jorgego11.github.io/aiopslabs/integration/</loc>
          <lastmod>2022-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://jorgego11.github.io/aiopslabs/integration/log-anomaly/</loc>
+         <loc>https://jorgego11.github.io/aiopslabs/log-anomaly/</loc>
          <lastmod>2022-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
