@@ -50,7 +50,7 @@ After saving the configuration, make sure the ELK integration page shows the Dat
 
 ---
 
-# Verify Incident Story
+## Verify Incident Story
 
 After deploying the log anomaly model and enabling real-time log consumption, we need to wait a few minutes to see the new alerts and stories being created.
 
@@ -75,3 +75,10 @@ After deploying the log anomaly model and enabling real-time log consumption, we
       * The change story settings button on the top right allow us to change the priority, the status and assignee.  
       * The Alerts tab shows only the alerts related to these particular story.
       * The Topology tab shows the overall topology where this incident happen (NOTE that currently this tab is not showing any topology. The overall topology can be seen from Home -> Resource management -> qotd)
+
+**THIS IS THE END OF THE LAB**
+
+---
+
+
+

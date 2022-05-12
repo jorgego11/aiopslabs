@@ -1,9 +1,10 @@
 site_name: Watson AIOps
-site_url: https://jorgego11.github.io/aiopslabs/integration/
+site_url: https://jorgego11.github.io/aiopslabs/
 nav:
+    - Home: 'https://jorgego11.github.io/aiopslabs/integration/'
     - Start Here: integration.md
     - Log Anomaly Training: log-anomaly.md
-    - Inference Results: inference.md
+    - Log Anomaly Inference: inference.md
     - About: about.md
 theme: readthedocs
 
