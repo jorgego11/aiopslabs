@@ -1,5 +1,5 @@
 site_name: Watson AIOps
-
+site_url: https://jorgego11.github.io/aiopslabs/
 nav:
     - Start Here: integration.md
     - Log Anomaly Training: log-anomaly.md
