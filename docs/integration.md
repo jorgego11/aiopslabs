@@ -15,7 +15,7 @@ These are the different Lab steps:
 1. Configure CP4WAIOps Log Anomaly Inference
 1. Verify CP4WAIOps incident stories
 
-**NOTE:** The Lab has configuration parameters that you should copy/paste from the tables shown in this [web page](https://ibm.box.com/s/vt86do910u7qsw9lgvfugg7rjje6bcuw)
+**NOTE:** The Lab has configuration parameters that you should copy/paste from the tables shown in this [web page](https://ibm.ent.box.com/notes/956840243998)
 The Lab call these as *Lab Parameters Table*. Make sure you copy the full parameter value and not miss any characters. 
 
 The following deployment architecture shows the different components that support the Lab:
