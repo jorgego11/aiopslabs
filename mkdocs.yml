@@ -1,7 +1,7 @@
 site_name: Watson AIOps
 site_url: https://jorgego11.github.io/aiopslabs/
 nav:
-    - Start Here: integration.md
+    - Configuring Data Sources: integration.md
     - Log Anomaly Training: log-anomaly.md
     - Log Anomaly Inference: inference.md
     - About: about.md
