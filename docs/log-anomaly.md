@@ -36,7 +36,7 @@ Log anomaly detection takes large amounts of log data and trains on it to learn 
 
 * On the `AI algorithms` tab, on the `Log anomaly detection-natural language` tile, click `Configure`.
 
-   ![AIOps log anomaly training 1](./images/aiops-log-anomaly-training-1.png)
+   ![AIOps log anomaly training 1](./images/aiops-log-anomaly-training-1a.png)
 
 * **Getting started:** Under Data and tool connections, check that at least one connection is listed down the page.
 
@@ -104,27 +104,33 @@ Now that the Log Anomaly configuration is set, we can start the training.
 
 * After a few moments, the following response is displayed: `Training successfully started`.
 
-* The AI Training tile displays the message: `Data retrieving. Training is now in progress.`
+* The AI Training tile displays various training status messages: such as `Queued`.
 
      ![AIOps log anomaly training 11](./images/aiops-log-anomaly-training-11.png)
 
-* 
 
-* **Log Anomaly Training will typically take around 30 minutes for this amount of data. This a good time to get lunch and come back in 30 minutes :-) **
+* You will see in the Models tile, how the wheel chart turns from red to green as diferent resources are added to the model. Its OK if the `anomaly` resource name fails to get a model. There are not enough log lines that have information about this resource. 
 
-* 
+     ![AIOps log anomaly training 11](./images/aiops-log-anomaly-training-11a.png)
 
-* Once the training is complete, the AI Training tile displays the message: `Training complete`. At this point, AI models are created, with a specified data quality.
+---
+
+* **Log Anomaly Training will typically take around 30 minutes for this amount of data. This a good time to step away and come back in 30 minutes. **
+
+---
+
+* Once the training is complete, the Training status tile displays the message: `3 of 3 complete`. At this point, the log anomaly models are created.
 
    ![AIOps log anomaly training 12](./images/aiops-log-anomaly-training-12.png)
 
-* To deploy the model, click the algorithm configuration for whose model that you want to deploy. The overview page is displayed.
 
-   In the right sidebar, click `Deploy vX`, where X is the version number of the model that is generated, but not deployed.
+Now the last step in the Log Anomaly Training section is to deploy the model. 
+
+* Click on the Versions tab and confirm there is a model created with Version v1. Click on the 3 dots on the right and select `Deploy` as shown below.
 
    ![AIOps log anomaly training 13](./images/aiops-log-anomaly-training-13.png)
 
-* Once the model is deployed, you can check the status of the model under the `Versions` tab.
+* Once the model is deployed, you willsee the Status changed to `Deployed` as shown below.
 
    ![AIOps log anomaly training 14](./images/aiops-log-anomaly-training-14.png)
 

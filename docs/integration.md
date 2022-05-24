@@ -2,7 +2,7 @@
 
 ## Connecting to the CP4WAIOps console
 
-Lets start by connecting to the CP4WAIOps console. Get the URL and login credentials from the *Lab Parameters Table*. You will see the console home page as shown below. 
+Lets start by connecting to the CP4WAIOps console. Use the URL and login credentials given by your Lab coordinator. You will see the console home page as shown below. 
 
 ![Home Page](./images/home-page.png "Home Page")
 
@@ -10,7 +10,7 @@ Lets start by connecting to the CP4WAIOps console. Get the URL and login credent
 
 ## Configure the EFK Integration
 
-EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. To simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the `OpenShift Logging` library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the `OpenShift Logging` library.
+EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. Note that Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. Now, to simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the `OpenShift Logging` library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the `OpenShift Logging` library. 
 
 To have AI Manager collect logs from the EFK installation that leverages the `OpenShift Logging` library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration.
 
@@ -37,7 +37,7 @@ Complete the ELK, `Add connection` form, with the following values:
 
 * `Filters`: Don't change it.
 
-* `Time zone`: Don't change it.
+* `Time zone`: Select `GMT-4`.
 
 * `Kibana port`: Type `443`.
 
@@ -85,7 +85,7 @@ The following screenshots show the form update flow as guidance **(note that con
 ![elk integration 6](./images/elk-integration-6.png "ELK integration 6")
 
 
-Finally, click on the `Done` button.  After some time, you will see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request` and the ELK integration page will show the Data Flow Status as `Running` as shown below:
+Finally, click on the `Done` button.  After some time, you will see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request`.  Click on the `ELK` Connection type and then the ELK integration page will show the `EFK for QOTD` integration you just defined showing the Data Flow Status as `Running` as shown below:
 
 ![elk integration 7](./images/elk-integration-7.png "ELK integration 7")
 
@@ -97,9 +97,9 @@ After around 15 minutes, it will stop pulling the data and the Data Flow Status 
 
 ## Configure the Instana Integration
 
-The CP4WAIOps will consume topology information from Instana therefore we will configure the integration between the CP4WAIOps and Instana.
+The CP4WAIOps will consume topology information from Instana therefore we will configure this integration.
 
-Lets verify first that there is no topology data in the system. From the Home page, clik on `Resource management` under `Overview` on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below
+Lets verify first that there is no topology data in the system. From the navigator menu, go to the Home page again, clik on `Resource management` under `Overview` on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below
  
 ![instana integration 0](./images/instana-0.png "Instana integration 0")
 
@@ -111,7 +111,7 @@ Enter the following `Add connection` information:
 
 * `Name`: The display name of your connection, for example `Instana connection`.
 
-* `Description`: An optional description for the connection.
+* `Description`: An optional description for the connection. Leave it blank.
 
 * `Endpoint`: Get the URL for the Instana Endpoint from the *Lab Parameters Table*.
 
@@ -126,7 +126,7 @@ Enter the following `Collect topology data`:
 
 * `Enable data flow`: Set this toggle button to on (green).
 
-* `Time window` (seconds): Leave as it is. This is the windowSize within the Instana API.
+* `Time window` (seconds): Leave as it is. This is the windowSize parameter within the Instana API.
 
 * `Connection Intervals` (seconds): Leave as it is. This is how frequently to run the job to collect topology.
 
@@ -155,7 +155,7 @@ From the Home page, clik on Resource management under Overview on the left side 
 
 ![Resource management](./images/resource-mgmt.png "Resource management")
 
-Click on the application `qotd` and you will see the topology resources related to this application as shown in the picture below. Feel free to zoom-in to see details.
+Click on the application `qotd` and you will see the topology resources related to this application as shown in the picture below. Feel free to zoom-in to see details. Note that it will take 10-20 minutes to get a complete representation of all the topology entities and relationships.
 
 ![qotd Topology](./images/resource-topo.png "qotd Topology]")
 
@@ -166,7 +166,7 @@ Click on the application `qotd` and you will see the topology resources related 
 
 Now, lets take a look at the automations page in CP4WAIOps. By creating automations, we can proactively set up actions and policies to detect and remediate events. 
 
-From the Home page, clik on `Automations` under `Overview` on the left side of the page. In this page, we can manage *Policies*, *Runbooks* and *Actions* (we will see Stories later in the Inference section of the Lab)
+From the Home page, clik on `Automations` under `Overview` on the left side of the page. In this page, we can manage *Policies*, *Runbooks* and *Actions*.
 
 Under the *Policies* tab, we can see a list of system predefined policies that support a number of features in CP4WAIOps. We will review and enable a predefined policy that create stories:
 
@@ -174,7 +174,9 @@ Under the *Policies* tab, we can see a list of system predefined policies that s
 
 * Change the state of the `Default story creation policy for all alerts` policy from Disabled to Enabled by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.
 
-* This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. Click on the policy name to see the policy details on the right of the page. 
+* This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. 
+
+Click on the policy name to see the policy details on the right side of the page. 
 
 * Click on the `Journal` tab to see the updates done so far to this policy.
 
