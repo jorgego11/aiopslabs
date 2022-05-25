@@ -52,9 +52,9 @@ Click `Next` to move to the next pane.
 
 * **Select data:** Specify a date range to train upon. Select `Custom` and specify the dates listed below. Note that from the full day of application logs that we pulled from the log aggregator, we will select the full 24 hours of data. In a real production deployment, you will tipically pull and later select up to a week of data to have a more representative model. 
 
-      * Start Date `05/08/2022`    12:00   `AM`   Local Time (UTC -04:00)
+      * Start Date `05/07/2022`    12:00   `AM`   Local Time (UTC -04:00)
 
-      * End Date `05/09/2022`      12:00   `AM`   Local Time (UTC -04:00)
+      * End Date `05/08/2022`      12:00   `AM`   Local Time (UTC -04:00)
 
    ![AIOps log anomaly training 4](./images/aiops-log-anomaly-training-4.png)
 
