@@ -92,11 +92,23 @@
                 <h1 id="configuring-data-sources">Configuring Data Sources</h1>
 <h2 id="connecting-to-the-cp4waiops-console">Connecting to the CP4WAIOps console</h2>
 <p>Lets start by connecting to the CP4WAIOps console. Use the URL and login credentials given by your Lab coordinator. You will see the console home page as shown below. </p>
+<ul>
+<li>
+<p>Note that the Lab environments use self signed certificates. During login the browser will ask you to accept the risk. You will get two prompts. </p>
+</li>
+<li>
+<p>On the login page, do not select OpenShift authentication, select <strong>IBM provided credentials (admin only)</strong> instead.</p>
+</li>
+<li>
+<p>As you go to different new pages in the environment, you will see the <em>Page Tour</em> pop-up.  Feel free to follow them.</p>
+</li>
+</ul>
 <p><img alt="Home Page" src="../images/home-page.png" title="Home Page" /></p>
 <hr />
 <h2 id="configure-the-efk-integration">Configure the EFK Integration</h2>
 <p>EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. Note that Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. Now, to simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the <code>OpenShift Logging</code> library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the <code>OpenShift Logging</code> library. </p>
 <p>To have AI Manager collect logs from the EFK installation that leverages the <code>OpenShift Logging</code> library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration.</p>
+<p><strong>Note that we will configure this connection but we will not save it as the training data has already been loaded to speed up the Lab.</strong></p>
 <p>From the Home page, under <code>Overview</code> clik on <code>Data and tool connections</code> on the left side of the page. Click on the <code>Add connection</code> button on the top right. On the ELK card, select <code>Add connection</code>. Take a moment to read the connection overview on the right side slider, then click on <code>Connect</code>, as shown in the following screen.</p>
 <p><img alt="elk integration 1" src="../images/elk-integration-1.png" title="ELK integration 1" /></p>
 <p>Complete the ELK, <code>Add connection</code> form, with the following values:</p>
@@ -167,7 +179,10 @@
 </ul>
 </li>
 <li>
-<p><code>Source parallelism (1-50)</code>: Don't change it.</p>
+<p><code>Source parallelism (1-50)</code>: Don't change it.  </p>
+</li>
+<li>
+<p>Remember not to click on <code>Done</code>.</p>
 </li>
 </ul>
 <p>The following screenshots show the form update flow as guidance <strong>(note that config values may be different in the screenshots, follow the previous instructions instead)</strong></p>
@@ -176,9 +191,10 @@
 <p><img alt="elk integration 4" src="../images/elk-integration-4.png" title="ELK integration 4" /></p>
 <p><img alt="elk integration 5" src="../images/elk-integration-5.png" title="ELK integration 5" /></p>
 <p><img alt="elk integration 6" src="../images/elk-integration-6.png" title="ELK integration 6" /></p>
-<p>Finally, click on the <code>Done</code> button.  After some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code>.  Click on the <code>ELK</code> Connection type and then the ELK integration page will show the <code>EFK for QOTD</code> integration you just defined showing the Data Flow Status as <code>Running</code> as shown below:</p>
+<p>Finally, click on <code>Cancel</code>.  </p>
+<p>If you had saved the configuration, after some time, you will see the message <code>Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request</code>.  Then if you click on the <code>ELK</code> Connection type the ELK integration page would show the <code>EFK for QOTD</code> integration you just defined showing the Data Flow Status as <code>Running</code> as shown below:</p>
 <p><img alt="elk integration 7" src="../images/elk-integration-7.png" title="ELK integration 7" /></p>
-<p>After around 15 minutes, it will stop pulling the data and the Data Flow Status will change to <code>Finished</code> as shown below. <strong>Don't wait. Move to the next step in the meantime.</strong></p>
+<p>After some time, it would stop pulling data and the Data Flow Status would change to <code>Finished</code> as shown below.</p>
 <p><img alt="elk integration 8" src="../images/elk-integration-8.png" title="ELK integration 8" /></p>
 <hr />
 <h2 id="configure-the-instana-integration">Configure the Instana Integration</h2>
