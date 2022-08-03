@@ -1,6 +1,6 @@
 
 ---
-* Lab: Cloud Pak for Watson AIOps v3.3 - Log Anomaly + Instana topology
+* Lab: Cloud Pak for Watson AIOps v3.4 - Log Anomaly + Instana topology
 
 * Author: Jorge Gonzalez Orozco
 
