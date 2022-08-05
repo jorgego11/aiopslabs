@@ -1,22 +1,24 @@
-# Welcome to the Cloud Pack for Watson AIOps v3.3 Lab
+# Welcome to the Cloud Pack for Watson AIOps v3.4 Lab
 
-For the complete product documentation, visit [this link](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.1).
+For the complete product documentation, visit [this link](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.4.1).
 
 ## Lab Overview
 
-In this Lab, you will play the role of an IT Operations expert that will configure the Cloud Pack for Watson AIOps (CP4WAIOps) to support IT Operations of a sample business application called QOTD. This application is being "observed" by Instana to pull application performance management metrics including topology. The application logs are being collected by a ElasticSearch (ELK) based log aggregator. These logs are consumed by CP4WAIOps to create a Log Anomaly model. And this model is used to detect application anomalies that will be shown in an incident Story. 
+In this Lab, you will play the role of an IT Operations expert that will configure the Cloud Pack for Watson AIOps (CP4WAIOps) to support IT Operations of a sample business application called QOTD. This application is being "observed" by Instana to pull application performance management metrics including topology. The application logs are being collected by an ElasticSearch (ELK) based log aggregator. These logs are consumed by the CP4WAIOps to create a Log Anomaly model. This model is used to detect application anomalies that will be shown in an incident Story.
 
 These are the different Lab steps:
 
-1. Configure the EFK Integration in CP4WAIOps to pull business application logs
+1. Configure the ELK Integration in CP4WAIOps to pull business application logs
 1. Configure the Instana Integration in CP4WAIOps to pull business application topology
 1. Update CP4WAIOps Policies to create stories
 1. Configure CP4WAIOps Log Anomaly Training
 1. Configure CP4WAIOps Log Anomaly Inference
 1. Verify CP4WAIOps incident stories
 
-**NOTE:** The Lab has configuration parameters that you should copy/paste from the tables shown in this [web page](https://ibm.box.com/s/z6n6kx0h507emq6onvrnt4x2mxjg3ftn)
-The Lab call these as *Lab Parameters Table*. Make sure you copy the full parameter value and not miss any characters. 
+We will define the terms **Training** and **Inference** later in the Lab. 
+
+**NOTE:** The Lab has configuration parameters that you should copy/paste from the tables shown in this [web page](https://ibm.box.com/s/xnqlfq6anky5lgk6z2e8ysa11hjx6nnw).
+The Lab call these as *Lab Parameters Table*. Make sure you copy the full parameter value and do not miss any characters. 
 
 The following deployment architecture shows the different components that support the Lab:
 
@@ -38,16 +40,19 @@ Lets define some key CP4WAIOps concepts and terms that will help you understand 
 
 - **Temporal correlation** - The system continually analyzes past alerts to determine which alerts tend to frequently co-occur. When these alerts occur together again, they are correlated.
 
-- **Topological correlation** - Any alerts which refer to resources within the same Resource group are correlated.
+- **Topological correlation** - Any alerts which refer to resources close to each other (from a topology point of view) are correlated.
 
 
-**Stories:** Stories represent the context around an incident which is currently severely impacting IT Operations. This includes all alerts that are related to the incident and information about how the affected resources are related. The creation and evolution of stories are informed by **alerts**. Stories can help build the understanding of the current situation and also drive the remediation steps. In other words, stories represent an `IT Operations incident` and are categorized by priority from 1 (high) to 5 (low).
+**Stories:** Stories represent the context around an incident which is currently severely impacting IT Operations. This includes all alerts that are related to the incident and information about how the affected resources are related. The creation and evolution of stories are informed by **alerts**. Stories help build the understanding of the current situation and also can drive the remediation steps. In other words, stories represent an `IT Operations incident` and are categorized by priority from 1 (high) to 5 (low).
 
-**Policies:** Policies are rules that contain a condition and a set of actions that can be manual or automated. They can be triggered to automatically promote events to alerts, reduce noise by grouping alerts into a story, and assign runbooks to remediate alerts. Each policy has an execution priority number which is determines which policy runs first. 
+**Policies:** Policies are rules that contain a condition and a set of actions that can be manual or automated. They can be triggered to automatically promote events to alerts, reduce noise by grouping alerts into a story, and assign runbooks to remediate alerts. Each policy has an execution priority number which determines which policy runs first. 
 
 **Runbooks:** A runbook is a controlled set of automated and manual steps that support system and network operational processes. A runbook orchestrates all types of infrastructure elements, such as applications, network components, or servers. We can also use runbooks to document standard procedures that can be leveraged by IT operations.
 
 **Actions:** Actions are the collection of several predefined steps into a single automated tested entity that can be shared by multiple runbooks. Actions improve runbook efficiency by encapsulating procedures and operations. 
 
+The following chart shows how all these terms are related:
+
+![Event Funnel](./images/event-funnel.png "Event Funnel")
 
 ---

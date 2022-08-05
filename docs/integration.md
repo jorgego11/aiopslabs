@@ -2,11 +2,12 @@
 
 ## Connecting to the CP4WAIOps console
 
-Lets start by connecting to the CP4WAIOps console. Use the URL and login credentials given by your Lab coordinator. You will see the console home page as shown below. 
+To run this Lab, make sure that you use the Chrome or Firefox browser and that the language in your browser settings is set to *English*. 
+Lets start by connecting to the CP4WAIOps console. Use the URL and login credentials given by your Lab coordinator. You will see the console Home page as shown below. 
 
-* Note that the Lab environments use self signed certificates. During login the browser will ask you to accept the risk. You will get two prompts. 
+* Note that the Lab environments use self signed certificates. During login the browser will ask you to accept the risk. You will probably get two prompts to accept the risk. 
 
-* On the login page, do not select OpenShift authentication, select **IBM provided credentials (admin only)** instead.
+* On the login page, select **IBM provided credentials (admin only)**.
 
 * As you go to different new pages in the environment, you will see the *Page Tour* pop-up.  Feel free to follow them.
 
@@ -16,11 +17,11 @@ Lets start by connecting to the CP4WAIOps console. Use the URL and login credent
 
 ## Configure the EFK Integration
 
-EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as a log aggregation tool. Note that Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. Now, to simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the `OpenShift Logging` library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the `OpenShift Logging` library. 
+EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of tools combining Elasticsearch, Fluentd, and Kibana that functions as an application log aggregation tool. Note that Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. Now, to simplify the installation and configuration effort for installing the different components of the EFK stack on OpenShift, we leverage the `OpenShift Logging` library from OpenShift. OpenShift customers that prefer not to spend part of their budget on a commercial log aggregator such as Humio, Splunk, or LogDNA, more than likely use the `OpenShift Logging` library that comes out of the box. 
 
-To have AI Manager collect logs from the EFK installation that leverages the `OpenShift Logging` library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration.
+To have the CP4WAIOps collect logs from the EFK installation that leverages the `OpenShift Logging` library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration. 
 
-**Note that we will configure this connection but we will not save it as the training data has already been loaded to speed up the Lab.**
+**Note that we will configure this connection but we will not save it as the log training data has already been loaded to speed up the Lab.**
 
 From the Home page, under `Overview` clik on `Data and tool connections` on the left side of the page. Click on the `Add connection` button on the top right. On the ELK card, select `Add connection`. Take a moment to read the connection overview on the right side slider, then click on `Connect`, as shown in the following screen.
 
@@ -33,7 +34,7 @@ Complete the ELK, `Add connection` form, with the following values:
 
 * `Description`: Leave it blank.
 
-* `ELK service URL`: Get the service URL for the EFK installation from the *Lab Parameters Table*.
+* `ELK service URL`: Get the service URL for the EFK installation from the *Lab Parameters Table*. Make sure to include the last * character at the end.
 
 * `Kibana URL`: Get URL for Kibana from the *Lab Parameters Table*.
 
@@ -53,9 +54,13 @@ Complete the ELK, `Add connection` form, with the following values:
 
 * `Sampling rate`: Don't change it.
 
+* `JSON processing option`: Don't change it.
+
+* Click on the `Test connection` button and confirm you get *Test succeeded* 
+
 Click on the `Next` button.
 
-* `Field mapping`: Use the mapping shown below instead of the default mapping provided on the ELK integration. Make sure you see the `Valid JSON configuration` message after that:
+* `Field mapping`: Use the mapping shown below instead of the default mapping provided on the ELK integration. Make sure you see the *Valid JSON configuration* message after that:
 
 ```
 {
@@ -67,13 +72,15 @@ Click on the `Next` button.
     "timestamp_field": "@timestamp"
 }
 ```
-* Click on the `Test Connection` button and confirm you get *Test Succeded* 
+
 
 Click on the `Next` button.
 
+* Remember not to click on `Done` in this last form as the log application data has already been loaded to speed up the lab. 
+
 * `Data flow`: Turn this on. 
 
-* `Mode`: Select the `Historical data for initial AI training` option using the dates listed below. CP4WAIOps will ingest one day of historical application log data (stored in the log aggregator) that we know in advanced that can be used as a "reference" for a normal day because no major IT incident happen. We will use this data later for Log Anomaly training. 
+* `Mode`: Select the `Historical data for initial AI training` option using the dates listed below. CP4WAIOps will ingest one day of historical application log data (stored in the log aggregator) that we know in advance that can be used as a "reference" for a normal day because no major IT Operations incident happen during that day. We will use this data later for Log Anomaly training. 
 
     * Start date: May 8, 2022
     * End Date: May 8, 2022
@@ -90,14 +97,10 @@ The following screenshots show the form update flow as guidance **(note that con
 
 ![elk integration 4](./images/elk-integration-4.png "ELK integration 4")
 
-![elk integration 5](./images/elk-integration-5.png "ELK integration 5")
-
-![elk integration 6](./images/elk-integration-6.png "ELK integration 6")
-
 
 Finally, click on `Cancel`.  
 
-If you had saved the configuration, after some time, you will see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request`.  Then if you click on the `ELK` Connection type the ELK integration page would show the `EFK for QOTD` integration you just defined showing the Data Flow Status as `Running` as shown below:
+In a real deployment scenario, if you had saved the configuration, after some time, you would see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request`.  Then if you click on the `ELK` Connection type the ELK integration page would show the `EFK for QOTD` integration you had defined showing the Data Flow Status as `Running` as shown below:
 
 ![elk integration 7](./images/elk-integration-7.png "ELK integration 7")
 
@@ -110,7 +113,7 @@ After some time, it would stop pulling data and the Data Flow Status would chang
 
 ## Configure the Instana Integration
 
-The CP4WAIOps will consume topology information from Instana therefore we will configure this integration.
+The CP4WAIOps will also consume topology information from Instana therefore we will configure this integration.
 
 Lets verify first that there is no topology data in the system. From the navigator menu, go to the Home page again, clik on `Resource management` under `Overview` on the left side of the page. On the Resource management page, make sure there are no Applications, Resource groups nor Resources defined, as shown below
  
@@ -162,7 +165,15 @@ Enter the following in `Collect metric data`:
 
 Click Done. 
 
-Now, lets verify that CP4WAIOps actually received topology data.
+Now, you will see the Instana connection created with the connection status as *Not running*.
+
+![Instana Connection Not Running](./images/instana-not-running.png "Instana Connection Not Running")
+
+After around 30 seconds, you will see that the Instana connection change the connection status to *Running* as shown below.
+
+![Instana Connection Running](./images/instana-running.png "Instana Connection Running")
+
+Now, lets verify that the CP4WAIOps is actually receiving topology data.
 
 From the Home page, clik on Resource management under Overview on the left side of the page. On the Resource management page, you will see a new application defined called `qotd` as shown below:
 
