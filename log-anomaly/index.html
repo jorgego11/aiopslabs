@@ -94,19 +94,19 @@
 <p>Lets recap what we have done so far:</p>
 <ul>
 <li>
-<p>We have defined an integration to a Log Aggregator (EFK) that its receiving logs from an application called <em>qotd</em> and we have pulled logs into CP4WAIOps for a period of 1 day.</p>
+<p>We have defined an integration to a Log Aggregator (EFK) that its receiving logs from an application called <strong>qotd</strong> and we have pulled logs into CP4WAIOps for a period of 1 day (in reality you did not save this integration at the end since the log data is already loaded as part of the lab)</p>
 </li>
 <li>
-<p>We have defined an integration to Instana which is observing the environment where qotd is running and we have pulled every resource topology information related to this application into CP4WAIOps.</p>
+<p>We have defined an integration to Instana which is observing the environment where the <strong>qotd</strong> application is running and we have pulled every resource topology information related to this application into the CP4WAIOps.</p>
 </li>
 <li>
-<p>We have enabled one CP4WAIOps policy to create Stories.</p>
+<p>We have enabled one CP4WAIOps policy to create Stories as soon as an Alert is received.</p>
 </li>
 </ul>
 <p>Now we will do log anomaly training to create a model that CP4WAIOps will use to find anomalies in the logs.</p>
 <hr />
 <h2 id="log-anomaly-algorithms">Log Anomaly Algorithms</h2>
-<p>In CP4WAIOps v3.3, two log anomaly detection AI algorithms are available, each of which can run independently of the other. If both algorithms are enabled, then any log anomalies that are discovered by both algorithms are reconciled so that only one alert is generated. The severity of this combined alert is equal to the highest severity of the two alerts.</p>
+<p>In the CP4WAIOps, two log anomaly detection AI algorithms are available, each of which can run independently of the other. If both algorithms are enabled, then any log anomalies that are discovered by both algorithms are reconciled so that only one alert is generated. The severity of this combined alert is equal to the highest severity of the two alerts. The two algorithms are:</p>
 <ul>
 <li>
 <p><strong>Statistical baseline log anomaly detection</strong> extracts specific entities from the logs, such as short text strings that indicate error codes and exceptions. The algorithm combines the entities with other statistics, such as number of logs for each component, and uses the data as a baseline to discover abnormal behavior in your live log data.</p>
@@ -115,74 +115,64 @@
 <p><strong>Natural language log anomaly detection</strong> uses natural language techniques on a subset of your log data to discover abnormal behavior.</p>
 </li>
 </ul>
-<p>Log anomaly detection takes large amounts of log data and trains on it to learn what is considered normal behavior for a particular component. This model goes beyond just looking at error states or frequency of metadata around log messages. Instead, it determines when something becomes an anomaly compared to what patterns it typically exhibits during normal times.</p>
+<p>Log anomaly detection takes large amounts of log data to learn what is considered a normal behavior for a particular component. This model goes beyond just looking at error states or frequency of metadata around log messages. Instead, it determines when something becomes an anomaly compared to what patterns it typically exhibits during normal times. 
+For example, if a minor error message shows up 2-3 times during a normal day this pattern can be learned by the model so in the future if the same message shows up 15 times during the day, then it will be flag as an anomaly and an Alert will be created.</p>
 <hr />
 <h2 id="configuring-log-anomaly-training">Configuring Log Anomaly Training</h2>
 <ul>
 <li>
-<p>From the Home page, under <code>Overview</code> click on <code>AI model management</code> to open the AI Model Management dashboard (feel free to skip the <em>Tour</em> pop-up window).</p>
+<p>From the Home page, under <code>Overview</code> click on <code>AI model management</code> to open the AI Model Management dashboard and make sure you follow the <em>Tour</em> pop-up window.</p>
 </li>
 <li>
-<p>On the <code>AI algorithms</code> tab, on the <code>Log anomaly detection-natural language</code> tile, click <code>Configure</code>.</p>
+<p>On the <code>Training</code> tab, on the <code>Log anomaly detection - natural language</code> tile, click <code>Set up training</code>.</p>
 </li>
 </ul>
-<p><img alt="AIOps log anomaly training 1" src="../images/aiops-log-anomaly-training-1a.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-1a.png" /></p>
 <ul>
-<li><strong>Getting started:</strong> Under Data and tool connections, check that at least one connection is listed down the page.</li>
+<li><strong>Getting started:</strong> You will see the connection here that we just defined. Remember we have disabled the data flow because the historical log training data is loaded already.</li>
 </ul>
-<p><img alt="AIOps log anomaly training 2" src="../images/aiops-log-anomaly-training-2.png" /></p>
-<p>Click <code>Next</code> to move to the next pane.</p>
-<ul>
-<li><strong>Provide details:</strong> Here we provide a name and description to identify this algorithm configuration later. For Configuration name, type <code>QOTD-NLP-model</code>. Leave the Configuration description empty. </li>
-</ul>
-<p><img alt="AIOps log anomaly training 3" src="../images/aiops-log-anomaly-training-3.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-1.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
 <li>
-<p><strong>Select data:</strong> Specify a date range to train upon. Select <code>Custom</code> and specify the dates listed below. Note that from the full day of application logs that we pulled from the log aggregator, we will select the full 24 hours of data. In a real production deployment, you will tipically pull and later select up to a week of data to have a more representative model. </p>
+<p><strong>Select data:</strong> Specify a date range to train upon. Select <code>Custom</code> and specify the dates listed below. Note that from the full day of application logs that we pulled from the log aggregator (preloaded data), we will select the full 24 hours of data. In a real production deployment, you will tipically pull and later select up to a week of data to have a more representative model. </p>
 <ul>
 <li>
-<p>Start Date <code>05/07/2022</code>    12:00   <code>AM</code>   Local Time (UTC -04:00)</p>
+<p>Start Date <code>05/06/2022</code>    12:00   <code>AM</code>   (UTC +00:00)</p>
 </li>
 <li>
-<p>End Date <code>05/08/2022</code>      12:00   <code>AM</code>   Local Time (UTC -04:00)</p>
+<p>End Date <code>05/09/2022</code>      12:00   <code>AM</code>   (UTC +00:00)</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><img alt="AIOps log anomaly training 4" src="../images/aiops-log-anomaly-training-4.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-2.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
 <li><strong>Filter data:</strong> Here we have the option to filter out known anomalies in the training data by specifing date ranges to skip. In this Lab, we don't need to specify any date range to get filtered. </li>
 </ul>
-<p><img alt="AIOps log anomaly training 5" src="../images/aiops-log-anomaly-training-5.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-3.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
-<li><strong>Schedule training:</strong> Here we can specify a time schedule to run the training if needed. In this Lab we will run the training manually therefore make sure that <em>Run on a schedule</em> is set to <code>Off</code> (grey).</li>
+<li><strong>Schedule training:</strong> Here we can specify a time schedule to run the training if needed. In this Lab we will run the training manually therefore make sure that <em>Schedule training</em> is set to <code>Off</code> (grey).</li>
 </ul>
-<p><img alt="AIOps log anomaly training 6" src="../images/aiops-log-anomaly-training-6.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-4.png" /></p>
 <p>Click <code>Next</code> to move to the next pane.</p>
 <ul>
 <li><strong>Deploy:</strong> To review the results of training before deploying the model, ensure that Deployment type is set to <code>Review first</code>.</li>
 </ul>
-<p><img alt="AIOps log anomaly training 7" src="../images/aiops-log-anomaly-training-7.png" /></p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-5.png" /></p>
 <p>Click <code>Done</code> to save the algorithm configuration.</p>
-<p>Now you will notice that the <code>Log anomaly detection-natural language</code> tile, is set to <code>Configured</code>.</p>
-<p><img alt="AIOps log anomaly training 8" src="../images/aiops-log-anomaly-training-8.png" /></p>
-<p>Now that the Log Anomaly configuration is set, we can start the training.</p>
+<p>Now you will notice that the <code>Log anomaly detection - natural language</code> tile, is set to <code>Not started</code>.</p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-6.png" /></p>
+<p>Now that the Log Anomaly configuration is finished, we can trigger the training.</p>
 <hr />
 <h2 id="train-deploy-a-log-anomaly-model">Train &amp; Deploy a Log Anomaly Model</h2>
 <ul>
 <li>
-<p>From the AI model management page, click on the <code>Manage</code> tab to open the management section.</p>
-<p><img alt="AIOps log anomaly training 9" src="../images/aiops-log-anomaly-training-9.png" /></p>
+<p>From the AI model management page, click on the three dots in the <code>Log anomaly detection - natural language</code> tile and select <code>View details</code>. This page shows the log anomaly training configuration that we just finished. </p>
+<p><img alt="AIOps log anomaly training" src="../images/aiops-log-anomaly-training-7.png" /></p>
 </li>
-<li>
-<p>Click the algorithm configuration that you just defined to generate an AI model. The overview page is displayed.</p>
-</li>
-</ul>
-<p><img alt="AIOps log anomaly training 10" src="../images/aiops-log-anomaly-training-10.png" /></p>
-<ul>
 <li>
 <p>In the right sidebar, click <code>Start training</code>.</p>
 </li>
@@ -191,11 +181,11 @@
 </li>
 <li>
 <p>The AI Training tile displays various training status messages: such as <code>Queued</code>.</p>
-<p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-11.png" /></p>
+<p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-8.png" /></p>
 </li>
 <li>
-<p>You will see in the Models tile, how the wheel chart turns from red to green as diferent resources are added to the model. Its OK if the <code>anomaly</code> resource name fails to get a model. There are not enough log lines that have information about this resource. </p>
-<p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-11a.png" /></p>
+<p>You will see in the Models tile, how the wheel chart turns from red to green as diferent resources are added to the model. Click on <code>View resources</code> to see the details on the resource training. Click on <code>Show details</code> in the Resources pop-up to learn more about this page. Its OK if the <code>anomaly</code> resource name fails to get a model. There are not enough log lines that have information about this resource. </p>
+<p><img alt="AIOps log anomaly training 11" src="../images/aiops-log-anomaly-training-9.png" /></p>
 </li>
 </ul>
 <hr />
@@ -206,16 +196,16 @@
 <ul>
 <li>Once the training is complete, the Training status tile displays the message: <code>3 of 3 complete</code>. At this point, the log anomaly models are created.</li>
 </ul>
-<p><img alt="AIOps log anomaly training 12" src="../images/aiops-log-anomaly-training-12.png" /></p>
+<p><img alt="AIOps log anomaly training 12" src="../images/aiops-log-anomaly-training-10.png" /></p>
 <p>Now the last step in the Log Anomaly Training section is to deploy the model. </p>
 <ul>
-<li>Click on the Versions tab and confirm there is a model created with Version v1. Click on the 3 dots on the right and select <code>Deploy</code> as shown below.</li>
+<li>Click on the Versions tab and confirm there is a model created with Status <code>Complete</code>. Click on the 3 dots on the right and select <code>Deploy</code> as shown below.</li>
 </ul>
-<p><img alt="AIOps log anomaly training 13" src="../images/aiops-log-anomaly-training-13.png" /></p>
+<p><img alt="AIOps log anomaly training 13" src="../images/aiops-log-anomaly-training-11.png" /></p>
 <ul>
-<li>Once the model is deployed, you willsee the Status changed to <code>Deployed</code> as shown below.</li>
+<li>Once the model is deployed, you will see the model Status changed to <code>Deployed</code> as shown below.</li>
 </ul>
-<p><img alt="AIOps log anomaly training 14" src="../images/aiops-log-anomaly-training-14.png" /></p>
+<p><img alt="AIOps log anomaly training 14" src="../images/aiops-log-anomaly-training-12.png" /></p>
 <hr />
               
             </div>

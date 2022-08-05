@@ -12,7 +12,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Welcome to the Cloud Pack for Watson AIOps v3.3 Lab";
+        var mkdocs_page_name = "Welcome to the Cloud Pack for Watson AIOps v3.4 Lab";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = "/aiopslabs/";
       </script>
@@ -69,7 +69,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Welcome to the Cloud Pack for Watson AIOps v3.3 Lab</li>
+    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Welcome to the Cloud Pack for Watson AIOps v3.4 Lab</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -79,21 +79,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="welcome-to-the-cloud-pack-for-watson-aiops-v33-lab">Welcome to the Cloud Pack for Watson AIOps v3.3 Lab</h1>
-<p>For the complete product documentation, visit <a href="https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.3.1">this link</a>.</p>
+                <h1 id="welcome-to-the-cloud-pack-for-watson-aiops-v34-lab">Welcome to the Cloud Pack for Watson AIOps v3.4 Lab</h1>
+<p>For the complete product documentation, visit <a href="https://www.ibm.com/docs/en/cloud-paks/cloud-pak-watson-aiops/3.4.1">this link</a>.</p>
 <h2 id="lab-overview">Lab Overview</h2>
-<p>In this Lab, you will play the role of an IT Operations expert that will configure the Cloud Pack for Watson AIOps (CP4WAIOps) to support IT Operations of a sample business application called QOTD. This application is being "observed" by Instana to pull application performance management metrics including topology. The application logs are being collected by a ElasticSearch (ELK) based log aggregator. These logs are consumed by CP4WAIOps to create a Log Anomaly model. And this model is used to detect application anomalies that will be shown in an incident Story. </p>
+<p>In this Lab, you will play the role of an IT Operations expert that will configure the Cloud Pack for Watson AIOps (CP4WAIOps) to support IT Operations of a sample business application called QOTD. This application is being "observed" by Instana to pull application performance management metrics including topology. The application logs are being collected by an ElasticSearch (ELK) based log aggregator. These logs are consumed by the CP4WAIOps to create a Log Anomaly model. This model is used to detect application anomalies that will be shown in an incident Story.</p>
 <p>These are the different Lab steps:</p>
 <ol>
-<li>Configure the EFK Integration in CP4WAIOps to pull business application logs</li>
+<li>Configure the ELK Integration in CP4WAIOps to pull business application logs</li>
 <li>Configure the Instana Integration in CP4WAIOps to pull business application topology</li>
 <li>Update CP4WAIOps Policies to create stories</li>
 <li>Configure CP4WAIOps Log Anomaly Training</li>
 <li>Configure CP4WAIOps Log Anomaly Inference</li>
 <li>Verify CP4WAIOps incident stories</li>
 </ol>
-<p><strong>NOTE:</strong> The Lab has configuration parameters that you should copy/paste from the tables shown in this <a href="https://ibm.box.com/s/z6n6kx0h507emq6onvrnt4x2mxjg3ftn">web page</a>
-The Lab call these as <em>Lab Parameters Table</em>. Make sure you copy the full parameter value and not miss any characters. </p>
+<p>We will define the terms <strong>Training</strong> and <strong>Inference</strong> later in the Lab. </p>
+<p><strong>NOTE:</strong> The Lab has configuration parameters that you should copy/paste from the tables shown in this <a href="https://ibm.box.com/s/xnqlfq6anky5lgk6z2e8ysa11hjx6nnw">web page</a>.
+The Lab call these as <em>Lab Parameters Table</em>. Make sure you copy the full parameter value and do not miss any characters. </p>
 <p>The following deployment architecture shows the different components that support the Lab:</p>
 <p><img alt="Lab Overview" src="images/lab-overview.png" title="Lab Overview" /></p>
 <hr />
@@ -109,13 +110,15 @@ The Lab call these as <em>Lab Parameters Table</em>. Make sure you copy the full
 <p><strong>Temporal correlation</strong> - The system continually analyzes past alerts to determine which alerts tend to frequently co-occur. When these alerts occur together again, they are correlated.</p>
 </li>
 <li>
-<p><strong>Topological correlation</strong> - Any alerts which refer to resources within the same Resource group are correlated.</p>
+<p><strong>Topological correlation</strong> - Any alerts which refer to resources close to each other (from a topology point of view) are correlated.</p>
 </li>
 </ul>
-<p><strong>Stories:</strong> Stories represent the context around an incident which is currently severely impacting IT Operations. This includes all alerts that are related to the incident and information about how the affected resources are related. The creation and evolution of stories are informed by <strong>alerts</strong>. Stories can help build the understanding of the current situation and also drive the remediation steps. In other words, stories represent an <code>IT Operations incident</code> and are categorized by priority from 1 (high) to 5 (low).</p>
-<p><strong>Policies:</strong> Policies are rules that contain a condition and a set of actions that can be manual or automated. They can be triggered to automatically promote events to alerts, reduce noise by grouping alerts into a story, and assign runbooks to remediate alerts. Each policy has an execution priority number which is determines which policy runs first. </p>
+<p><strong>Stories:</strong> Stories represent the context around an incident which is currently severely impacting IT Operations. This includes all alerts that are related to the incident and information about how the affected resources are related. The creation and evolution of stories are informed by <strong>alerts</strong>. Stories help build the understanding of the current situation and also can drive the remediation steps. In other words, stories represent an <code>IT Operations incident</code> and are categorized by priority from 1 (high) to 5 (low).</p>
+<p><strong>Policies:</strong> Policies are rules that contain a condition and a set of actions that can be manual or automated. They can be triggered to automatically promote events to alerts, reduce noise by grouping alerts into a story, and assign runbooks to remediate alerts. Each policy has an execution priority number which determines which policy runs first. </p>
 <p><strong>Runbooks:</strong> A runbook is a controlled set of automated and manual steps that support system and network operational processes. A runbook orchestrates all types of infrastructure elements, such as applications, network components, or servers. We can also use runbooks to document standard procedures that can be leveraged by IT operations.</p>
 <p><strong>Actions:</strong> Actions are the collection of several predefined steps into a single automated tested entity that can be shared by multiple runbooks. Actions improve runbook efficiency by encapsulating procedures and operations. </p>
+<p>The following chart shows how all these terms are related:</p>
+<p><img alt="Event Funnel" src="images/event-funnel.png" title="Event Funnel" /></p>
 <hr />
               
             </div>
@@ -159,5 +162,5 @@ The Lab call these as <em>Lab Parameters Table</em>. Make sure you copy the full
 
 <!--
 MkDocs version : 1.3.0
-Build Date UTC : 2022-05-25 20:06:17.448867+00:00
+Build Date UTC : 2022-08-05 21:42:52.307933+00:00
 -->
