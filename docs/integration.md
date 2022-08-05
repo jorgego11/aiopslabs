@@ -21,12 +21,12 @@ EFK is a variant of ELK (Elasticsearch, Logstash, and Kibana). EFK is a suite of
 
 To have the CP4WAIOps collect logs from the EFK installation that leverages the `OpenShift Logging` library, you need to define an EFK integration. The lab will provide the values that you should use for defining the EFK integration. 
 
-**Note that we will configure this connection but we will not save it as the log training data has already been loaded to speed up the Lab.**
+**Note that we will configure this connection but we will leave the data flow disabled because historical log training data has already been loaded to speed up the Lab. We will enable the data flow later in the Lab during the final Log Anomaly Inference section**
 
 From the Home page, under `Overview` clik on `Data and tool connections` on the left side of the page. Click on the `Add connection` button on the top right. On the ELK card, select `Add connection`. Take a moment to read the connection overview on the right side slider, then click on `Connect`, as shown in the following screen.
 
 
-![elk integration 1](./images/elk-integration-1.png "ELK integration 1")
+![elk integration 1](./images/elk-integration-1.png "EFK integration 1")
 
 Complete the ELK, `Add connection` form, with the following values:
 
@@ -76,9 +76,8 @@ Click on the `Next` button.
 
 Click on the `Next` button.
 
-* Remember not to click on `Done` in this last form as the log application data has already been loaded to speed up the lab. 
 
-* `Data flow`: Turn this on. 
+* `Data flow`: we will leave this Off (grey) as the historical log data has already been loaded to speed up the Lab. We will enable the data flow later in the Lab during the final Log Anomaly Inference section
 
 * `Mode`: Select the `Historical data for initial AI training` option using the dates listed below. CP4WAIOps will ingest one day of historical application log data (stored in the log aggregator) that we know in advance that can be used as a "reference" for a normal day because no major IT Operations incident happen during that day. We will use this data later for Log Anomaly training. 
 
@@ -87,9 +86,9 @@ Click on the `Next` button.
 
 * `Source parallelism (1-50)`: Don't change it.  
 
-* Remember not to click on `Done`.
+* Click on `Done`.
 
-The following screenshots show the form update flow as guidance **(note that config values may be different in the screenshots, follow the previous instructions instead)**
+The following screenshots show the form update flow as guidance **(note that config values may be different in the screenshots, follow the instructions instead)**
 
 ![elk integration 2](./images/elk-integration-2.png "ELK integration 2")
 
@@ -98,15 +97,11 @@ The following screenshots show the form update flow as guidance **(note that con
 ![elk integration 4](./images/elk-integration-4.png "ELK integration 4")
 
 
-Finally, click on `Cancel`.  
 
-In a real deployment scenario, if you had saved the configuration, after some time, you would see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request`.  Then if you click on the `ELK` Connection type the ELK integration page would show the `EFK for QOTD` integration you had defined showing the Data Flow Status as `Running` as shown below:
+After some time, you would see the message `Connection completed. IBM Cloud Pak for Watson AIOps has successfully processed your request` as shown below.
 
 ![elk integration 7](./images/elk-integration-7.png "ELK integration 7")
 
-After some time, it would stop pulling data and the Data Flow Status would change to `Finished` as shown below.
- 
-![elk integration 8](./images/elk-integration-8.png "ELK integration 8")
 
 
 ---
@@ -190,13 +185,15 @@ Click on the application `qotd` and you will see the topology resources related 
 
 Now, lets take a look at the automations page in CP4WAIOps. By creating automations, we can proactively set up actions and policies to detect and remediate events. 
 
-From the Home page, clik on `Automations` under `Overview` on the left side of the page. In this page, we can manage *Policies*, *Runbooks* and *Actions*.
+From the Home page, clik on `Automations` under `Overview` on the left side of the page and make sure you follow the page introduction tour (pop-up) as this will explain this page in detail.  In this page, we can manage *Policies*, *Runbooks* and *Actions*.
 
 Under the *Policies* tab, we can see a list of system predefined policies that support a number of features in CP4WAIOps. We will review and enable a predefined policy that create stories:
 
 * Click on the Tag pull down filter and select `Story` to only show the Story related policies.
 
-* Change the state of the `Default story creation policy for all alerts` policy from Disabled to Enabled by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.
+* Change the state of the `DEMO Story creation policy for all alerts` policy from **Enabled** to **Disabled** by clicking on the State slider. We don't need this policy in this Lab.
+
+* Change the state of the `Default story creation policy for all alerts` policy from **Disabled** to **Enabled** by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.
 
 * This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. 
 
