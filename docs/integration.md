@@ -180,10 +180,16 @@ Click on the application `qotd` and you will see the topology resources related 
 
 ---
 
+## Exploring Automations in CP4WAIOps
 
-## Review and Update CP4WAIOps Policies
+By creating automations in CP4WAIOps, you can proactively set up **policies**, **runbooks**, and **actions** to detect and remediate events, both current and future. Policies are rules that contain conditions and a set of actions that can be manual or automated. With policies, you can automatically group alerts into a story, and assign runbooks to resolve alerts.
 
-Now, lets take a look at the automations page in CP4WAIOps. By creating automations, we can proactively set up actions and policies to detect and remediate events. 
+When you create a runbook, you can define the required steps to resolve a situation. If you don’t have any runbooks, you can create a new one or load some sample runbooks. Actions in runbooks are the collection of several manual steps into a single automated entity. An action improves runbook efficiency by automatically performing procedures and operations. Actions can be shared and reused across runbooks.
+
+
+### Review and Update CP4WAIOps Policies
+
+Now, lets take a look at the automations page in CP4WAIOps. We will update a few of the existing policies that are needed for this Lab.
 
 From the Home page, clik on `Automations` under `Overview` on the left side of the page and make sure you follow the page introduction tour (pop-up) as this will explain this page in detail.  In this page, we can manage *Policies*, *Runbooks* and *Actions*.
 
@@ -193,16 +199,65 @@ Under the *Policies* tab, we can see a list of system predefined policies that s
 
 * Change the state of the `DEMO Story creation policy for all alerts` policy from **Enabled** to **Disabled** by clicking on the State slider. We don't need this policy in this Lab.
 
-* Change the state of the `Default story creation policy for all alerts` policy from **Disabled** to **Enabled** by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.
-
-* This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. 
+* Change the state of the `Default story creation policy for all alerts` policy from **Disabled** to **Enabled** by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab. This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. 
 
 Click on the policy name to see the policy details on the right side of the page. 
 
 * Click on the `Journal` tab to see the updates done so far to this policy.
 
-* Click on the `Specification` tab to see the actual steps or logic of the policy.
+* Click on the `Specification` tab to see the actual steps or logic of the policy. Note that the logic can be described as follows:
+
+```
+if ( Alert is created ) then
+    create a Story regardless of the Alert severity
+fi
+```
 
 That's all we need to do to enable this policy. 
+
+
+### Exploring Runbooks
+
+Use Runbook Automation to build and execute runbooks that can help IT staff to solve common operational problems. Runbook Automation can automate procedures that do not require human interaction, thereby increasing the efficiency of IT operations processes. Operators can spend more time innovating and are freed from performing time-consuming manual tasks.
+
+* What problems does Runbook Automation address?
+
+    IT systems keep growing in complexity. The number of events are increasing, and the pressure to move from finding problems to fixing them is increasing. Runbook Automation supports operational and expert teams in developing consistent and reliable procedures for daily operational tasks.
+
+* How can I simplify daily operational tasks?
+
+    Using Runbook Automation, as a first step, you can record standard manual activities, so that they are run consistently across the organization. The next step is to replace manual steps with script-based tasks.
+
+* What is a runbook again?
+
+    A runbook is a controlled set of automated and manual steps that support system and network operational processes. A runbook can orchestrate all types of infrastructure elements, such as applications, network components, or servers.
+
+Runbook Automation helps users to define, build, orchestrate, and manage runbooks. A knowledge base can be built up over time through collaboration between Subject Matter Experts (SMEs) and operational staff.
+
+Runbook Automation in CP4WAIOps supports three different types of runbooks:
+
+* **Manual runbooks**: Steps describe the exact procedure that an operator must follow. The operator uses standard tools, which can be accessed from their working environment.
+
+* **Semi-automated runbooks**: Each step describes exactly what an operator must do. Additionally, the operator can run an automated task on a target system.
+
+* **Fully automated runbooks**: The runbook runs automatically without operator interaction.
+
+
+
+### Exploring Actions
+
+In runbooks, actions are the collection of several steps into a single automated entity. An action improves runbook efficiency by automatically performing procedures and operations. Runbook Automation supports actions of type script-SSH and HTTP. 
+
+
+* **Script-SSH actions** - You can create an action of type script by leveraging an existing SSH connection. The Operating System of the endpoint system can be either UNIX® (including AIX® and Linux®) or Windows™. This action does not require an additional agent as it uses a direct remote execution connection through SSH.
+
+* **HTTP actions** - The HTTP action allows you to send HTTP requests to a specified web service.
+
+* **Ansible Tower actions** - The Ansible Tower actions leverage an existing Ansible Tower connection to harvests Ansible Tower type actions from the connected Ansible Tower server. These actions are created automatically and reference an existing asset from a connected Ansible Tower installation. Unlike script-SSH actions, Ansible Tower actions do not define new automation content inside the CP4WAIOps. Instead they point to an existing automation, present in the Ansible Tower server, which is a job or job workflow template. When an Ansible Tower Action runs, it calls the specific "launch" operation of that template on the connected Ansible Tower server. 
+
+
+Lets explore some sample runbooks that have been preloaded for this Lab. From the Home page, clik on `Automations` under `Overview` on the left side of the page. Click on the `Runbooks` tab. We will review the `Restart RobotShop Ratings` runbook. Click on the three dots at the end of the row and select `Preview`.
+You see that on the right panel under Information the Type is Automatic. This makes sense because this runbook consists of two Actions. 
+The first Action stops the ratings service of the sample Robotshop application. The second Action, starts this service again. Click on the `More Info` button of both actions. You will see that the type of both actions is `Ansible Tower`. This means that there is an Ansible playbook for each of these actions and these playbooks run from an Ansible Tower server.
 
 ---

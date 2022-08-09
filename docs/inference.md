@@ -42,7 +42,7 @@ We are going to modify our integration with the log aggregator to start consumin
 
 * Finally click on the `Save` button. 
 
-After saving the configuration, make sure the ELK integration page shows the Data Flow Status as `Running` as shown below. Note that it may take 1-2 minutes to show this.
+After saving the configuration, make sure the ELK integration page shows the Data Flow Status as `Running` as shown below. **Note that it may take up to 1-2 minutes to show this message.**
 
 ![elk integration 7](./images/elk-integration-77.png "ELK integration 7")
 
@@ -94,6 +94,11 @@ These are the Log Anomaly alerts that were created by the Log Anomaly model we j
       * The `Change story settings` button on the top right allow us to change the priority, the status and assignee.  
       * The Alerts tab shows only the alerts related to this particular story.
       * The Topology tab shows the overall topology context where this incident happen.
+
+
+Finally, go back to the Home page and see how the different information cards get populated with data, now that we have anomalies and stories created:
+
+![Home Page](./images/home-page-90.png)
 
 **CONGRATULATIONS, THIS IS THE END OF THE LAB**
 

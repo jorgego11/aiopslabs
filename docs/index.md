@@ -55,4 +55,14 @@ The following chart shows how all these terms are related:
 
 ![Event Funnel](./images/event-funnel.png "Event Funnel")
 
+
+
+Some additional terms used for Runbooks:
+
+**Ansible Automation Platform**:  Ansible is a popular open source agent-less automation engine that automates cloud provisioning, configuration management, application deployment, intra-service orchestration, and many other IT needs.
+
+**Ansible Playbook**: Ansible Playbooks is a repeatable, re-usable, simple configuration management and multi-machine deployment system. Playbooks are expressed in YAML format with a minimum of syntax.
+
+**Ansible Automation Controller**: formerly Ansible Tower, represents the control plane for the Ansible Automation Platform and helps standardize how automation is deployed, initiated, delegated, and audited within the enterprise. The open source "equivalent" of Ansible Automation Controller is called AWX.
+
 ---
