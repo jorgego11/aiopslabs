@@ -49,7 +49,15 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configure-the-instana-integration">Configure the Instana Integration</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</a>
+    <li class="toctree-l2"><a class="reference internal" href="#exploring-automations-in-cp4waiops">Exploring Automations in CP4WAIOps</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#exploring-runbooks">Exploring Runbooks</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#exploring-actions">Exploring Actions</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -260,8 +268,11 @@ Lets start by connecting to the CP4WAIOps console. Use the URL and login credent
 <p>Click on the application <code>qotd</code> and you will see the topology resources related to this application as shown in the picture below. Feel free to zoom-in to see details. Note that it will take 10-20 minutes to get a complete representation of all the topology entities and relationships.</p>
 <p><img alt="qotd Topology" src="../images/resource-topo.png" title="qotd Topology]" /></p>
 <hr />
-<h2 id="review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</h2>
-<p>Now, lets take a look at the automations page in CP4WAIOps. By creating automations, we can proactively set up actions and policies to detect and remediate events. </p>
+<h2 id="exploring-automations-in-cp4waiops">Exploring Automations in CP4WAIOps</h2>
+<p>By creating automations in CP4WAIOps, you can proactively set up <strong>policies</strong>, <strong>runbooks</strong>, and <strong>actions</strong> to detect and remediate events, both current and future. Policies are rules that contain conditions and a set of actions that can be manual or automated. With policies, you can automatically group alerts into a story, and assign runbooks to resolve alerts.</p>
+<p>When you create a runbook, you can define the required steps to resolve a situation. If you don’t have any runbooks, you can create a new one or load some sample runbooks. Actions in runbooks are the collection of several manual steps into a single automated entity. An action improves runbook efficiency by automatically performing procedures and operations. Actions can be shared and reused across runbooks.</p>
+<h3 id="review-and-update-cp4waiops-policies">Review and Update CP4WAIOps Policies</h3>
+<p>Now, lets take a look at the automations page in CP4WAIOps. We will update a few of the existing policies that are needed for this Lab.</p>
 <p>From the Home page, clik on <code>Automations</code> under <code>Overview</code> on the left side of the page and make sure you follow the page introduction tour (pop-up) as this will explain this page in detail.  In this page, we can manage <em>Policies</em>, <em>Runbooks</em> and <em>Actions</em>.</p>
 <p>Under the <em>Policies</em> tab, we can see a list of system predefined policies that support a number of features in CP4WAIOps. We will review and enable a predefined policy that create stories:</p>
 <ul>
@@ -272,10 +283,7 @@ Lets start by connecting to the CP4WAIOps console. Use the URL and login credent
 <p>Change the state of the <code>DEMO Story creation policy for all alerts</code> policy from <strong>Enabled</strong> to <strong>Disabled</strong> by clicking on the State slider. We don't need this policy in this Lab.</p>
 </li>
 <li>
-<p>Change the state of the <code>Default story creation policy for all alerts</code> policy from <strong>Disabled</strong> to <strong>Enabled</strong> by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab.</p>
-</li>
-<li>
-<p>This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. </p>
+<p>Change the state of the <code>Default story creation policy for all alerts</code> policy from <strong>Disabled</strong> to <strong>Enabled</strong> by clicking on the State slider. We need to enable this policy so we can see stories being created later in the Inference section of the Lab. This Policy will basically create a new Story for every new Alert regardless of the severity of the Alert. </p>
 </li>
 </ul>
 <p>Click on the policy name to see the policy details on the right side of the page. </p>
@@ -284,10 +292,59 @@ Lets start by connecting to the CP4WAIOps console. Use the URL and login credent
 <p>Click on the <code>Journal</code> tab to see the updates done so far to this policy.</p>
 </li>
 <li>
-<p>Click on the <code>Specification</code> tab to see the actual steps or logic of the policy.</p>
+<p>Click on the <code>Specification</code> tab to see the actual steps or logic of the policy. Note that the logic can be described as follows:</p>
 </li>
 </ul>
+<pre><code>if ( Alert is created ) then
+    create a Story regardless of the Alert severity
+fi
+</code></pre>
 <p>That's all we need to do to enable this policy. </p>
+<h3 id="exploring-runbooks">Exploring Runbooks</h3>
+<p>Use Runbook Automation to build and execute runbooks that can help IT staff to solve common operational problems. Runbook Automation can automate procedures that do not require human interaction, thereby increasing the efficiency of IT operations processes. Operators can spend more time innovating and are freed from performing time-consuming manual tasks.</p>
+<ul>
+<li>
+<p>What problems does Runbook Automation address?</p>
+<p>IT systems keep growing in complexity. The number of events are increasing, and the pressure to move from finding problems to fixing them is increasing. Runbook Automation supports operational and expert teams in developing consistent and reliable procedures for daily operational tasks.</p>
+</li>
+<li>
+<p>How can I simplify daily operational tasks?</p>
+<p>Using Runbook Automation, as a first step, you can record standard manual activities, so that they are run consistently across the organization. The next step is to replace manual steps with script-based tasks.</p>
+</li>
+<li>
+<p>What is a runbook again?</p>
+<p>A runbook is a controlled set of automated and manual steps that support system and network operational processes. A runbook can orchestrate all types of infrastructure elements, such as applications, network components, or servers.</p>
+</li>
+</ul>
+<p>Runbook Automation helps users to define, build, orchestrate, and manage runbooks. A knowledge base can be built up over time through collaboration between Subject Matter Experts (SMEs) and operational staff.</p>
+<p>Runbook Automation in CP4WAIOps supports three different types of runbooks:</p>
+<ul>
+<li>
+<p><strong>Manual runbooks</strong>: Steps describe the exact procedure that an operator must follow. The operator uses standard tools, which can be accessed from their working environment.</p>
+</li>
+<li>
+<p><strong>Semi-automated runbooks</strong>: Each step describes exactly what an operator must do. Additionally, the operator can run an automated task on a target system.</p>
+</li>
+<li>
+<p><strong>Fully automated runbooks</strong>: The runbook runs automatically without operator interaction.</p>
+</li>
+</ul>
+<h3 id="exploring-actions">Exploring Actions</h3>
+<p>In runbooks, actions are the collection of several steps into a single automated entity. An action improves runbook efficiency by automatically performing procedures and operations. Runbook Automation supports actions of type script-SSH and HTTP. </p>
+<ul>
+<li>
+<p><strong>Script-SSH actions</strong> - You can create an action of type script by leveraging an existing SSH connection. The Operating System of the endpoint system can be either UNIX® (including AIX® and Linux®) or Windows™. This action does not require an additional agent as it uses a direct remote execution connection through SSH.</p>
+</li>
+<li>
+<p><strong>HTTP actions</strong> - The HTTP action allows you to send HTTP requests to a specified web service.</p>
+</li>
+<li>
+<p><strong>Ansible Tower actions</strong> - The Ansible Tower actions leverage an existing Ansible Tower connection to harvests Ansible Tower type actions from the connected Ansible Tower server. These actions are created automatically and reference an existing asset from a connected Ansible Tower installation. Unlike script-SSH actions, Ansible Tower actions do not define new automation content inside the CP4WAIOps. Instead they point to an existing automation, present in the Ansible Tower server, which is a job or job workflow template. When an Ansible Tower Action runs, it calls the specific "launch" operation of that template on the connected Ansible Tower server. </p>
+</li>
+</ul>
+<p>Lets explore some sample runbooks that have been preloaded for this Lab. From the Home page, clik on <code>Automations</code> under <code>Overview</code> on the left side of the page. Click on the <code>Runbooks</code> tab. We will review the <code>Restart RobotShop Ratings</code> runbook. Click on the three dots at the end of the row and select <code>Preview</code>.
+You see that on the right panel under Information the Type is Automatic. This makes sense because this runbook consists of two Actions. 
+The first Action stops the ratings service of the sample Robotshop application. The second Action, starts this service again. Click on the <code>More Info</code> button of both actions. You will see that the type of both actions is <code>Ansible Tower</code>. This means that there is an Ansible playbook for each of these actions and these playbooks run from an Ansible Tower server.</p>
 <hr />
               
             </div>
